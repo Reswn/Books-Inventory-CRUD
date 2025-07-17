@@ -1,36 +1,163 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
 
-First, run the development server:
+---
+
+# 📚 Book Inventory App
+
+A simple and elegant full-stack application for managing your personal or business book inventory. Built using **Next.js 14 App Router**, **Prisma ORM**, **Shadcn UI**, and **Tailwind CSS**. Supports authenticated users, real-time filtering, dynamic routing, and server actions.
+
+---
+
+## ✨ Features
+
+- ✅ User Authentication (via Stackframe)
+- 📁 Add / View / Filter books by name or category
+- 🔍 Client-side filtering with search and category dropdown
+- 🧠 Server-side database queries via Prisma
+- 💅 Styled with Shadcn UI + Tailwind CSS
+- 🔒 Private book ownership (only show user’s own books)
+- 📦 Book details page with slug-based dynamic routing
+- 🧱 Modular, typed components using TypeScript
+- 🚀 Fully compatible with App Router + Server Components
+
+---
+
+## 🧱 Tech Stack
+
+| Tech       | Usage                            |
+|------------|----------------------------------|
+| Next.js    | Full-stack React framework       |
+| Prisma     | ORM to connect to PostgreSQL     |
+| Shadcn UI  | UI components using Radix + Tailwind |
+| Tailwind CSS | Utility-first CSS styling      |
+| Stackframe | Auth and server actions          |
+| PostgreSQL | Relational database              |
+| TypeScript | Static typing                    |
+
+---
+
+## 📁 Folder Structure
+
+```
+/app
+  /inventory       # Inventory table + book cards
+  /book/[slug]     # Dynamic detail page for each book
+/components         # Reusable UI components (Table, Card, etc)
+/actions            # Server actions (getBooks, getBookById)
+/lib
+  prisma.ts         # Prisma client
+  utils.ts          # (Optional) Helper functions
+/prisma
+  schema.prisma     # Prisma DB schema
+/public             # Static assets
+```
+
+---
+
+## 🛠️ Getting Started
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/your-username/book-inventory-app.git  
+cd book-inventory-app
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Setup your database
+
+Update the `.env` file with your own PostgreSQL database URL:
+
+```env
+DATABASE_URL=postgresql://user:password@localhost:5432/bookdb
+```
+
+### 4. Generate and push Prisma schema
+
+```bash
+npx prisma generate
+npx prisma migrate dev --name init
+```
+
+### 5. Run the app locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+App will be available at: http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 🧪 Example `.env` file
 
-## Learn More
+```ini
+DATABASE_URL=postgresql://your_user:your_password@localhost:5432/bookdb
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📌 Important Components
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `BookCard.tsx` – Reusable card to display book details
+- `InventoryTable.tsx` – Table with filter input & category combobox
+- `getBooks()` – Server action to fetch books (optionally filtered)
+- `getBookById()` – Server action to get one book from slug
+- `BookDetailsPage.tsx` – Full book detail layout using dynamic params
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔐 Authentication
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Authentication is handled by Stackframe Auth, and all book data is scoped to the currently logged-in user via `userId`. Unauthorized users are redirected to the `<SignIn />` component.
+
+---
+
+## 📦 Example Book Model (Prisma)
+
+```prisma
+model Book {
+  id        String   @id @default(cuid())
+  name      String
+  description String?
+  category  String
+  stock     Int
+  price     Float
+  imageUrl  String?
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+```
+
+---
+
+## 🧼 TODO / Improvements
+
+- [ ] Add Edit/Delete functionality
+- [ ] Image uploader for book cover
+- [ ] Pagination for large inventories
+- [ ] Responsive design enhancements
+- [ ] Role-based admin panel
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License. Feel free to use and modify for personal or commercial projects.
+
+---
+
+## 👨‍💻 Author
+
+Developed by Reni Kartika Suwandi
+
+Built with ❤️ using Next.js, Prisma, and Shadcn UI
+
+---
